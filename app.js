@@ -8,8 +8,10 @@ let Seattle = {
   avgCust: 6.3,
   // generate a random number of customers per hour (it will use 'this')
   randomNumCust: function() {
+    for(let i = 0; i < hours.length; i++) {
     return Math.floor((Math.random() * this.maxCust)+ this.minCust);
-  },
+    }
+  }
 };
 
 
