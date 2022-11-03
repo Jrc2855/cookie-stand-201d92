@@ -2,57 +2,72 @@
 
 let hours = ['6AM', '7AM', '8AM', '9AM', '10AM','11AM','12PM', '1PM', '2PM','3PM','4PM','5PM','6PM','7PM'];
 
+let everyStore = [];
+
+//------------Constructor------------//
 function storeLocation(location, minCust, maxCust, avgSales) {
   this.location = location;
-  this.mincust = minCust;
+  this.minCust = minCust;
   this.maxCust = maxCust;
   this.avgSales = avgSales;
   this.hourlySales = [];
   this.dailyTotal = 0;
-  // storeLocation.all.push(this);
+  everyStore.push(this);
 };
 
-storeLocation.all = [];
 
+//--------------Calculating Random Cookie Sales--------------//
 storeLocation.prototype.calcAvgSales = function() {
   for (let i = 0; i <hours.length; i++) { 
-    let cookiesSold = Math.floor((Math.random() * this.maxCust) + this.minCust);
+    let cookiesSold = Math.floor((Math.random() * this.maxCust) + this.minCust) * Math.floor(this.avgSales); 
     this.hourlySales.push(cookiesSold);
     this.dailyTotal = this.dailyTotal + cookiesSold;
-    // return Math.floor((Math.random() * this.maxCust)+ this.minCust);
   }
 };
+//----------------Calculating Hourly Cookie Sales----------------//
+storeLocation.prototype.calcHourlySales = function() {
+  for(let i = 0; i < everyStore.length; i++) {
+    let hourlySales = 0;
+    for(let j=0; j < hours[i].length;i++){
+      hourlySales += everyStore;
+    }
+  }  
+};
+
+//--------------Calculating A Random Number of Customers--------------//
 storeLocation.prototype.calcRandomCustomers = function() {
   return (Math.floor(Math.random() * (this.maxCust - this.minCust + 1) + this.minCust)) * this.avgSales
 };
 
+
+//----------Header Render-----------//
 function renderHeader() {
   let parentEl = document.getElementById('sales-data');
   let rowEl = document.createElement('tr');
   let headerEl = document.createElement('th');
   rowEl.appendChild(headerEl);
-  for (let j = 0; j < hours.length; j++) {
+  for (let i = 0; i < hours.length; i++) {
     headerEl = document.createElement('th');
-    headerEl.textContent = hours[j];
+    headerEl.textContent = hours[i];
     rowEl.appendChild(headerEl);
   }
   headerEl = document.createElement('th');
-  headerEl.innerText = 'Daily Location Total';
+  headerEl.innerText = 'Daily Total';
   rowEl.appendChild(headerEl);
   parentEl.appendChild(rowEl);
 };
-
 renderHeader();
 
+//------------Table Row Render------------//
 storeLocation.prototype.renderTableRow = function() {
   let parentEl = document.getElementById('sales-data');
   let rowEl = document.createElement('tr');
   let dataEl = document.createElement('td');
   dataEl.innerText = this.location;
   rowEl.appendChild(dataEl);
-  for(let sale=0; sale< this.hourlySales.length; sale++) {
+  for(let i=0; i< this.hourlySales.length; i++) {
     let dataEl = document.createElement('td');
-    dataEl.innerText = this.hourlySales[sale];
+    dataEl.innerText = this.hourlySales[i];
     rowEl.appendChild(dataEl);
   };
   dataEl = document.createElement('td');
@@ -61,36 +76,37 @@ storeLocation.prototype.renderTableRow = function() {
   parentEl.appendChild(rowEl);
 };
 
-// function renderFooter() {
-//   let parentEl = document.getElementById('sales-data');
-//   let rowEl = document.getElementById('tr');
-//   let dataEl = document.getElementById('td');
-//   dataEl.innerText = 'Totals';
-//   rowEl.appendChild(dataEl);
+//---------------Footer Render---------------//
+storeLocation.prototype.renderFooter = function() {
+  let rowEl = document.createElement('tr');
+  let dataEl = document.createElement('td');
+  dataEl.innerText = 'Test';
+  rowEl.appendChild(dataEl);
+  parentEl.appendChild(rowEl);
 
-//   let grandTotal = 0;
-//   for(let k = 0; k < hours.length; k++) {
-//     let dataEl = document.createElement('td');
-//     let sum = 0;
-//     for (let l = 0; l < storeLocation.all.length; l++);{
-//       sum = sum + storeLocation.all[l].hourlySales[k];
-//       grandTotal = grandTotal + storeLocation.all[l].hourlySales[k]; 
-//     }
-//     dataEl.innerText = sum;
-//     rowEl.appendChild(dataEl);
-//   }
-//   dataEl = document.createElement('td');
-//   dataEl.innerText = grandTotal;
-//   rowEl.appendChild(dataEl);
-//   parentEl.appendChild(rowEl);
-// }
+  let grandTotal = 0;
+  for(let i = 0; i < hours.length; i++) {
+    let hourlyTotals = 0;
+    for (let j = 0; j < everyStore.length; j++);{
+      hourlyTotals += everyStore[j].hourlySales[i]
+    }
+    let dataEl = document.createElement('td');
+    dataEl.innerText = hourlyTotals;
+    rowEl.appendChild(dataEl);
+    grandTotal +=hourlyTotals;
+  }
+  dataEl = document.createElement('td');
+  dataEl.innerText = grandTotal;
+  rowEl.appendChild(dataEl);
+  parentEl.appendChild(rowEl);
+}
 // renderFooter();
 
 let Seattle = new storeLocation('Seattle', 23, 65, 6.3);
 let Lima = new storeLocation('Lima', 2, 16, 4.6);
 let Paris = new storeLocation('Paris', 20, 38, 2.3);
 let Dubai = new storeLocation('Dubai',11, 38, 3.7);
-let Tokyo = new storeLocation('Tokyo', 3, 24, 1.2)
+let Tokyo = new storeLocation('Tokyo', 3, 24, 1.2);
 
 Seattle.calcAvgSales();
 Seattle.renderTableRow();
@@ -107,7 +123,6 @@ Dubai.renderTableRow();
 Tokyo.calcAvgSales();
 Tokyo.renderTableRow();
 
-console.log(storeLocation.all);
 
 
 
@@ -148,21 +163,20 @@ console.log(storeLocation.all);
 
 
 // ---------------- Lab 6 ------------------//
-let TestSeattle = {
-  // location: Seattle,
-  minCust: 23,
-  maxCust: 65,
-  avgCookies: 6.3,
-  cookiesSold:[],
+// let Seattle = {
+//   // location: Seattle,
+//   minCust: 23,
+//   maxCust: 65,
+//   avgCookies: 6.3,
+//   cookiesSold:[],
   
-  // generate a random number of customers per hour (it will use 'this')
-  randomNumCust: function() {
-      for(let i = 0; i < hours.length; i++) {
-        return Math.floor((Math.random() * this.maxCust)+ this.minCust);
-        }
-      }
-    };
-    console.log(TestSeattle.randomNumCust);
+//   // generate a random number of customers per hour (it will use 'this')
+//   randomNumCust: function() {
+//       for(let i = 0; i < hours.length; i++) {
+//         return Math.floor((Math.random() * this.maxCust)+ this.minCust);
+//         }
+//       }
+//     };
 
 // let Tokyo ={
 //   minCust: 3,
