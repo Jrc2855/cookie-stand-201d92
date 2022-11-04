@@ -1,0 +1,80 @@
+
+header {
+  height:80px;
+  width:100%;
+  background-color: saddlebrown;
+}
+
+header nav ul {
+  display:flex;
+  flex-direction:row;
+  align-self: center;
+  justify-content: center;
+  justify-content: space-evenly;
+  list-style:none;
+}
+
+header nav ul li {
+  margin-top:30px;
+  font-size:30px;
+}
+
+#logo {
+  float:right;
+  margin-top:10px;
+  margin-right:10px;
+  height:60px;
+  width:80px;
+}
+table {
+  margin:auto;
+}
+
+table, th, td{
+  border:1px solid;
+  align-items: center;
+}
+
+body{
+  background-color: cadetblue;
+}
+
+h1 {
+  text-align: center;
+  background-color: saddlebrown;
+  margin:auto;
+}
+h2{
+  background-color: saddlebrown;
+  text-align: center;
+}
+body img {
+  display:block;
+  margin:auto;
+}
+#about p {
+  width:75%;
+  margin:auto;
+}
+#Contacts {
+  background-color: saddlebrown;
+  list-style-type: none;
+  width: 70%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+  font-size:25px;
+} 
+footer {
+  background-color: saddlebrown;
+  width:100%;
+  text-align: center;
+  margin:auto;
+  font-size: 20px;
+}
+
+#merch {
+  background-color: saddlebrown;
+  text-align:center;
+  margin:auto;
+}
