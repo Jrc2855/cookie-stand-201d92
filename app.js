@@ -2,7 +2,6 @@
 
 let hours = ['6AM', '7AM', '8AM', '9AM', '10AM','11AM','12PM', '1PM', '2PM','3PM','4PM','5PM','6PM','7PM'];
 
-let everyStore = [];
 
 //------------Constructor------------//
 function storeLocation(location, minCust, maxCust, avgSales) {
@@ -12,9 +11,10 @@ function storeLocation(location, minCust, maxCust, avgSales) {
   this.avgSales = avgSales;
   this.hourlySales = [];
   this.dailyTotal = 0;
-  everyStore.push(this);
+  storeLocation.all.push(this);
 };
 
+storeLocation.all = [];
 
 //--------------Calculating Random Cookie Sales--------------//
 storeLocation.prototype.calcAvgSales = function() {
@@ -49,7 +49,7 @@ function renderHeader() {
   for (let i = 0; i < hours.length; i++) {
     headerEl = document.createElement('th');
     headerEl.textContent = hours[i];
-    rowEl.appendChild(headerEl);
+    rowEl.appendChild(headerEl); 
   }
   headerEl = document.createElement('th');
   headerEl.innerText = 'Daily Total';
@@ -76,31 +76,6 @@ storeLocation.prototype.renderTableRow = function() {
   parentEl.appendChild(rowEl);
 };
 
-//---------------Footer Render---------------//
-storeLocation.prototype.renderFooter = function() {
-  let rowEl = document.createElement('tr');
-  let dataEl = document.createElement('td');
-  dataEl.innerText = 'Test';
-  rowEl.appendChild(dataEl);
-  parentEl.appendChild(rowEl);
-
-  let grandTotal = 0;
-  for(let i = 0; i < hours.length; i++) {
-    let hourlyTotals = 0;
-    for (let j = 0; j < everyStore.length; j++);{
-      hourlyTotals += everyStore[j].hourlySales[i]
-    }
-    let dataEl = document.createElement('td');
-    dataEl.innerText = hourlyTotals;
-    rowEl.appendChild(dataEl);
-    grandTotal +=hourlyTotals;
-  }
-  dataEl = document.createElement('td');
-  dataEl.innerText = grandTotal;
-  rowEl.appendChild(dataEl);
-  parentEl.appendChild(rowEl);
-}
-// renderFooter();
 
 let Seattle = new storeLocation('Seattle', 23, 65, 6.3);
 let Lima = new storeLocation('Lima', 2, 16, 4.6);
@@ -124,6 +99,32 @@ Tokyo.calcAvgSales();
 Tokyo.renderTableRow();
 
 
+//---------------Footer Render---------------//
+// storeLocation.prototype.
+function renderFooter() {
+  let parentEl = document.getElementById('sales-data');
+  let rowEl = document.createElement('tr');
+  let dataEl = document.createElement('td');
+  dataEl.innerText = 'Hourly Totals';
+  rowEl.appendChild(dataEl);
+
+  let grandTotal = 0;
+  for(let i = 0; i < hours.length; i++) {
+    let dataEl = document.createElement('td');
+    let hourlyTotals = 0;
+    for (let j = 0; j < storeLocation.all.length; j++);{
+      hourlyTotals = hourlyTotals + storeLocation.all[j].hourlyTotals[i];
+      grandTotal = grandTotal + storeLocation.all[j].hourlyTotals[i];
+    }
+    dataEl.innerText = hourlyTotals;
+    rowEl.appendChild(dataEl);
+  }
+  dataEl = document.createElement('td');
+  dataEl.innerText = grandTotal;
+  rowEl.appendChild(dataEl);
+  parentEl.appendChild(rowEl);
+}
+renderFooter();
 
 
 
